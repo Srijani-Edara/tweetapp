@@ -3,6 +3,7 @@ package com.tweetapp.service;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,7 +22,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String loginId) throws UsernameNotFoundException {
         Users fetcheduser = userRepository.findByLoginId(loginId);
 
-        return new org.springframework.security.core.userdetails.User(loginId, fetcheduser.getPassword(), new ArrayList<>());
+        return new User(loginId, fetcheduser.getPassword(), new ArrayList<>());
     }
     
     

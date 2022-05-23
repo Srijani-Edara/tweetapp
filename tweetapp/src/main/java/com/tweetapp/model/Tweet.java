@@ -3,8 +3,11 @@ package com.tweetapp.model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Document(collection = "tweets")
 public class Tweet {
@@ -14,8 +17,16 @@ public class Tweet {
 	private String tweetPost;
 	private List<String> likedUsers;
 	private List<String> tweetReplies;
+	
+	@CreatedDate
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime time;
+	
+	@LastModifiedDate
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDateTime updatedTime;
+	
+	
 	public String getTweetId() {
 		return tweetId;
 	}

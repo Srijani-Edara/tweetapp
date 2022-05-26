@@ -29,6 +29,23 @@ public class Tweet {
 	
 	
 	
+	public Tweet(String tweetId, String userId, String tweetPost, List<String> likedUsers, List<Comment> tweetReplies,
+			LocalDate createdDate, LocalDate updatedDate) {
+		super();
+		this.tweetId = tweetId;
+		this.userId = userId;
+		this.tweetPost = tweetPost;
+		this.likedUsers = likedUsers;
+		this.tweetReplies = tweetReplies;
+		this.createdDate = createdDate;
+		this.updatedDate = updatedDate;
+	}
+	@Override
+	public String toString() {
+		return "Tweet [tweetId=" + tweetId + ", userId=" + userId + ", tweetPost=" + tweetPost + ", likedUsers="
+				+ likedUsers + ", tweetReplies=" + tweetReplies + ", createdDate=" + createdDate + ", updatedDate="
+				+ updatedDate + "]";
+	}
 	public String getTweetId() {
 		return tweetId;
 	}

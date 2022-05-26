@@ -43,6 +43,17 @@ public class Users {
 	public void setLoginId(String loginId) {
 		this.loginId = loginId;
 	}
+	public Users(String userId, String firstName, String lastName, String email, String loginId, String password,
+			String mobileNumber) {
+		super();
+		this.userId = userId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.loginId = loginId;
+		this.password = password;
+		this.mobileNumber = mobileNumber;
+	}
 	public String getPassword() {
 		return password;
 	}

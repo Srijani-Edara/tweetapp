@@ -3,6 +3,8 @@ package com.tweetapp.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +14,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tweetapp.exception.UserAlreadyExistException;
+import com.tweetapp.exception.UserNotExistException;
+import com.tweetapp.model.Comment;
 import com.tweetapp.model.Tweet;
+import com.tweetapp.model.TweetMsg;
 import com.tweetapp.service.TweetService;
+
+
 
 @RestController
 @RequestMapping("/tweets")
+@CrossOrigin("*")
 public class TweetController {
 	
 	@Autowired
@@ -28,35 +37,57 @@ public class TweetController {
 	}
 	
 	@GetMapping("/{loginId}")
-	public List<Tweet> allTweetsOfUser(@PathVariable String loginId){
+	public List<Tweet> allTweetsOfUser(@PathVariable("loginId") String loginId){
 		return tweetService.getAllTweetsOfUser(loginId);
 	}
 	
 	@PostMapping("/{loginId}/add")
-	public Boolean postTweet(@PathVariable String loginId, @RequestBody String tweet) {
-		tweetService.addTweet(loginId, tweet);
-		return true;
+	public Boolean postTweet(@PathVariable("loginId") String loginId, @RequestBody TweetMsg tweet) {
+		try {
+			tweetService.addTweet(loginId, tweet.getTweetMsg());
+			return true;
+		}
+		catch(UserNotExistException e) {
+			return false;
+		}
+		
 	}
 	
 	@PutMapping("/{loginId}/update/{tweetId}")
-	public Tweet updateTweet(@PathVariable String loginId, @PathVariable String tweetId, @RequestBody String tweet) {
-		return tweetService.updateTweet(tweetId, tweet);
+	public Tweet updateTweet(@PathVariable("loginId") String loginId, @PathVariable String tweetId, @RequestBody TweetMsg tweet) {
+		return tweetService.updateTweet(tweetId, tweet.getTweetMsg());
 	}
 	
 	@DeleteMapping("/{loginId}/delete/{tweetId}")
-	public Boolean deleteTweet(@PathVariable String loginId, @PathVariable String tweetId) {
+	public Boolean deleteTweet(@PathVariable("loginId") String loginId, @PathVariable String tweetId) {
 		tweetService.deleteTweet(tweetId);
 		return true;
 	}
 	
 	@PutMapping("/{loginId}/like/{tweetId}")
-	public Tweet likeTweet(@PathVariable String loginId, @PathVariable String tweetId) {
-		return tweetService.likeTweet(loginId, tweetId);
+	public Boolean likeTweet(@PathVariable("loginId") String loginId, @PathVariable String tweetId) {
+		try {
+			tweetService.likeTweet(loginId, tweetId);
+			return true;
+		}
+		catch (UserNotExistException e) {
+            return false;
+        }
+		
 	}
 	
 	@PutMapping("/{loginId}/reply/{tweetId}")
-	public Tweet replyTweet(@PathVariable String loginId, @PathVariable String tweetId, @RequestBody String comment) {
-		return tweetService.replyTweet(loginId, tweetId, comment);
+	public boolean replyTweet(@PathVariable("loginId") String loginId, @PathVariable String tweetId, @RequestBody Comment comment) {
+		try {
+			tweetService.replyTweet(loginId, tweetId, comment);
+			return true;
+		}
+		catch(UserNotExistException e) {
+			return false;
+		}
+		
+		
+		
 	}
 
 }

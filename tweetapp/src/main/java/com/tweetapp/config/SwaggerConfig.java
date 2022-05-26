@@ -1,6 +1,7 @@
 package com.tweetapp.config;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -32,6 +33,20 @@ public class SwaggerConfig {
           .apis(RequestHandlerSelectors.basePackage("com.tweetapp"))              
           .paths(PathSelectors.any())                          
           .build();                                           
+    }
+    private ApiKey apiKey() {
+        return new ApiKey("JWT", "Authorization", "header");
+    }
+    
+    private SecurityContext securityContext() { 
+        return SecurityContext.builder().securityReferences(defaultAuth()).build(); 
+    } 
+
+    private List<SecurityReference> defaultAuth() { 
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything"); 
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1]; 
+        authorizationScopes[0] = authorizationScope; 
+        return Arrays.asList(new SecurityReference("JWT", authorizationScopes)); 
     }
     
     /*@Bean

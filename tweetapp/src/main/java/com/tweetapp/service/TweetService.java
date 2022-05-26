@@ -6,8 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.tweetapp.exception.UserNotExistException;
+import com.tweetapp.model.Comment;
 import com.tweetapp.model.Tweet;
+import com.tweetapp.model.TweetMsg;
+import com.tweetapp.model.Users;
 import com.tweetapp.repository.TweetRepository;
+import com.tweetapp.repository.UserRepository;
+import com.tweetapp.exception.UserNotExistException;
 
 @Service
 public class TweetService {
@@ -15,7 +21,14 @@ public class TweetService {
 	@Autowired
 	TweetRepository tweetRepository;
 	
-	public Tweet addTweet(String loginId, String msg) {
+	@Autowired
+	UserRepository userRepo;
+	
+	public Tweet addTweet(String loginId, String msg) throws UserNotExistException{
+		Users loginIdCheck = userRepo.findByLoginId(loginId);
+		if(loginIdCheck == null) {
+			throw new UserNotExistException("you need to register ");
+		}
 		Tweet tweet = new Tweet();
         tweet.setTweetPost(msg);
         tweet.setUserId(loginId);
@@ -31,6 +44,7 @@ public class TweetService {
 	public Tweet updateTweet(String tweetId, String updatedTweet) {
 		Tweet tweet = tweetRepository.findByTweetId(tweetId);
 		tweet.setTweetPost(updatedTweet);
+		tweetRepository.save(tweet);
 		return tweet;
 	}
 	
@@ -42,7 +56,11 @@ public class TweetService {
 		return tweetRepository.findByUserId(userId);
 	}
 	
-	public Tweet likeTweet(String loginId, String tweetId) {
+	public Tweet likeTweet(String loginId, String tweetId) throws UserNotExistException {
+		Users loginIdCheck = userRepo.findByLoginId(loginId);
+		if(loginIdCheck == null) {
+			throw new UserNotExistException("you need to register ");
+		}
 		Tweet tweet = tweetRepository.findByTweetId(tweetId);
 		List<String> likedUsers = tweet.getLikedUsers();
 		
@@ -51,15 +69,22 @@ public class TweetService {
 		else 
         	likedUsers.add(loginId);
 		tweet.setLikedUsers(likedUsers);
+		tweetRepository.save(tweet);
 		return tweet;
 	}
 	
-	public Tweet replyTweet(String loginId, String tweetId, String tweetReply) {
-		Tweet tweet = tweetRepository.findByTweetId(tweetId);
-		List<String> replies = tweet.getTweetReplies();
-		replies.add(tweetReply);
-		tweet.setTweetReplies(replies);
-		return tweet;
+	public Tweet replyTweet(String loginId, String tweetId, Comment comment) throws UserNotExistException{
+		Users loginIdCheck = userRepo.findByLoginId(loginId);
+		if(loginIdCheck == null) {
+			throw new UserNotExistException("you need to register ");
+		}
+		Tweet tweetToUpdate = tweetRepository.findByTweetId(tweetId);
+        List<Comment> replyCommentLists = tweetToUpdate.getTweetReplies();
+        comment.setUserId(loginId);
+        replyCommentLists.add(comment);
+        tweetToUpdate.setTweetReplies(replyCommentLists);
+        return tweetRepository.save(tweetToUpdate);
+		
 	}
 }
 

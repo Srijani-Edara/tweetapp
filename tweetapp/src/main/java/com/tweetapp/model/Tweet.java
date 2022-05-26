@@ -1,5 +1,6 @@
 package com.tweetapp.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,15 +17,16 @@ public class Tweet {
 	private String userId;
 	private String tweetPost;
 	private List<String> likedUsers;
-	private List<String> tweetReplies;
+	private List<Comment> tweetReplies;
 	
 	@CreatedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDateTime time;
-	
-	@LastModifiedDate
+    private LocalDate createdDate;
+
+    @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDateTime updatedTime;
+    private LocalDate updatedDate;
+	
 	
 	
 	public String getTweetId() {
@@ -51,30 +53,26 @@ public class Tweet {
 	public void setLikedUsers(List<String> likedUsers) {
 		this.likedUsers = likedUsers;
 	}
-	public List<String> getTweetReplies() {
+	
+	public List<Comment> getTweetReplies() {
 		return tweetReplies;
 	}
-	public void setTweetReplies(List<String> tweetReplies) {
+	public void setTweetReplies(List<Comment> tweetReplies) {
 		this.tweetReplies = tweetReplies;
 	}
-	public LocalDateTime getTime() {
-		return time;
+	public LocalDate getCreatedDate() {
+		return createdDate;
 	}
-	public void setTime(LocalDateTime time) {
-		this.time = time;
+	public void setCreatedDate(LocalDate createdDate) {
+		this.createdDate = createdDate;
 	}
-	public LocalDateTime getUpdatedTime() {
-		return updatedTime;
+	public LocalDate getUpdatedDate() {
+		return updatedDate;
 	}
-	public void setUpdatedTime(LocalDateTime updatedTime) {
-		this.updatedTime = updatedTime;
+	public void setUpdatedDate(LocalDate updatedDate) {
+		this.updatedDate = updatedDate;
 	}
-	@Override
-	public String toString() {
-		return "Tweet [tweetId=" + tweetId + ", userId=" + userId + ", tweetPost=" + tweetPost + ", likedUsers="
-				+ likedUsers + ", tweetReplies=" + tweetReplies + ", time=" + time + ", updatedTime=" + updatedTime
-				+ "]";
-	}
+	
 	public Tweet() {
 		super();
 	}

@@ -21,9 +21,12 @@ import com.tweetapp.service.MyUserDetailsService;
 import com.tweetapp.service.UserService;
 import com.tweetapp.util.JwtUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/tweetapp")
 @CrossOrigin("*")
+@Slf4j
 public class UserController {
 	 @Autowired
 	 UserService userService;
@@ -40,6 +43,7 @@ public class UserController {
 	 @PostMapping("/signup")
 	 public Boolean signUpUser(@RequestBody Users user) throws UserAlreadyExistException {
 	     try {
+	    	 log.info("signing up a user");
 	           userService.signUpUser(user);
 	        } catch (UserAlreadyExistException e) {
 	            return false;
@@ -49,18 +53,21 @@ public class UserController {
 
 	 @GetMapping("/user/all")
 	 public List<Users> getAllUsers() {
+		 log.info("fetching all users");
 	     List<Users> userList = userService.getAllUsers();
 	     return userList;
 	 }
 
 	 @GetMapping("/user/{userName}")
 	    public List<Users> getUserById(@PathVariable("userName") String userName) {
+		 log.info("fetching user by name");
 	     return userService.getUserById(userName);
 	 }
 
 	 @PutMapping("/user/forgetpassword")
 	 public Boolean getUserById(@RequestBody AuthRequest aReq) throws Exception {
 	 try {
+		 log.info("re-setting password");
 	        userService.forgetPassword(aReq);
 	     } catch (UsernameNotFoundException e) {
 	        return false;

@@ -2,9 +2,14 @@ package com.tweetapp.exception;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlRootElement;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class ErrorMsg {
 	
 
@@ -12,27 +17,7 @@ public class ErrorMsg {
 
     private List<String> details;
 
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public List<String> getDetails() {
-        return details;
-    }
-
-    public void setDetails(List<String> details) {
-        this.details = details;
-    }
     
-    public ErrorMsg(String message, List<String> details) {
-        super();
-        this.message = message;
-        this.details = details;
-    }
 }
 
 

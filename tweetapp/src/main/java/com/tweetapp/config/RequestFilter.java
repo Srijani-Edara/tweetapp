@@ -7,8 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,10 +17,12 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.tweetapp.service.MyUserDetailsService;
 import com.tweetapp.util.JwtUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Component
+@Slf4j
 public class RequestFilter extends OncePerRequestFilter{
 	
-	private static final Logger logger = LoggerFactory.getLogger(RequestFilter.class);
 	@Autowired
     private MyUserDetailsService userDetailsService;
 
@@ -41,7 +41,7 @@ public class RequestFilter extends OncePerRequestFilter{
 			try {
 				username=jwtUtil.extractUsername(jwtToken);
 			}catch(Exception e) {
-				logger.error("Invalid JWT", e.getMessage());
+				log.error("Invalid JWT");
 			}
 			UserDetails userdeatils=userDetailsService.loadUserByUsername(username);
 			
@@ -51,7 +51,7 @@ public class RequestFilter extends OncePerRequestFilter{
 			    SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 			
 			}else {
-				logger.error("Invalid token");
+				log.error("Invalid token");
 			}
 		}
 		filterChain.doFilter(request, response);

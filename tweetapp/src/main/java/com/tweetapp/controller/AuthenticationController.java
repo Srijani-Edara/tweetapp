@@ -16,8 +16,11 @@ import com.tweetapp.service.MyUserDetailsService;
 import com.tweetapp.service.UserService;
 import com.tweetapp.util.JwtUtil;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @CrossOrigin("*")
+@Slf4j
 public class AuthenticationController {
 	
 	@Autowired
@@ -35,6 +38,7 @@ public class AuthenticationController {
     @PostMapping("/authenticate")
     public AuthResponse getUserById(@RequestBody AuthRequest aReq) throws Exception {
         try {
+        	log.info("validating the user ");
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(aReq.getLoginId(), aReq.getPassword()));
         } catch (BadCredentialsException e) {
             throw new Exception("Invalid UserName or Password", e);

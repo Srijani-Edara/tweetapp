@@ -9,11 +9,9 @@ import org.springframework.stereotype.Service;
 import com.tweetapp.exception.UserNotExistException;
 import com.tweetapp.model.Comment;
 import com.tweetapp.model.Tweet;
-import com.tweetapp.model.TweetMsg;
 import com.tweetapp.model.Users;
 import com.tweetapp.repository.TweetRepository;
 import com.tweetapp.repository.UserRepository;
-import com.tweetapp.exception.UserNotExistException;
 
 @Service
 public class TweetService {

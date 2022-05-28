@@ -1,7 +1,7 @@
 package com.tweetapp.model;
 
+
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -10,6 +10,13 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "tweets")
 public class Tweet {
 	@Id
@@ -26,73 +33,4 @@ public class Tweet {
     @LastModifiedDate
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate updatedDate;
-	
-	
-	
-	public Tweet(String tweetId, String userId, String tweetPost, List<String> likedUsers, List<Comment> tweetReplies,
-			LocalDate createdDate, LocalDate updatedDate) {
-		super();
-		this.tweetId = tweetId;
-		this.userId = userId;
-		this.tweetPost = tweetPost;
-		this.likedUsers = likedUsers;
-		this.tweetReplies = tweetReplies;
-		this.createdDate = createdDate;
-		this.updatedDate = updatedDate;
-	}
-	@Override
-	public String toString() {
-		return "Tweet [tweetId=" + tweetId + ", userId=" + userId + ", tweetPost=" + tweetPost + ", likedUsers="
-				+ likedUsers + ", tweetReplies=" + tweetReplies + ", createdDate=" + createdDate + ", updatedDate="
-				+ updatedDate + "]";
-	}
-	public String getTweetId() {
-		return tweetId;
-	}
-	public void setTweetId(String tweetId) {
-		this.tweetId = tweetId;
-	}
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getTweetPost() {
-		return tweetPost;
-	}
-	public void setTweetPost(String tweetPost) {
-		this.tweetPost = tweetPost;
-	}
-	public List<String> getLikedUsers() {
-		return likedUsers;
-	}
-	public void setLikedUsers(List<String> likedUsers) {
-		this.likedUsers = likedUsers;
-	}
-	
-	public List<Comment> getTweetReplies() {
-		return tweetReplies;
-	}
-	public void setTweetReplies(List<Comment> tweetReplies) {
-		this.tweetReplies = tweetReplies;
-	}
-	public LocalDate getCreatedDate() {
-		return createdDate;
-	}
-	public void setCreatedDate(LocalDate createdDate) {
-		this.createdDate = createdDate;
-	}
-	public LocalDate getUpdatedDate() {
-		return updatedDate;
-	}
-	public void setUpdatedDate(LocalDate updatedDate) {
-		this.updatedDate = updatedDate;
-	}
-	
-	public Tweet() {
-		super();
-	}
-	
-	
 }

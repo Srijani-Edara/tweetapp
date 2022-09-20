@@ -1,0 +1,22 @@
+jwttoken:
+  expiration: 180000
+server:
+  error:
+    include-stacktrace: never
+  port: 8082
+spring:
+  data:
+    mongodb:
+      auto-index-creation: true
+      database: tweetapp
+      uri: mongodb+srv://srijani:Srijani8@cluster0.rfbasjo.mongodb.net/?retryWrites=true&w=majority
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
